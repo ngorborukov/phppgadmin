@@ -614,7 +614,7 @@
 
 		/**
 		 * Display a link
-		 * @param $link An associative array of link parameters to print
+		 * @param array $link An associative array of link parameters to print
 		 *     link = array(
 		 *       'attr' => array( // list of A tag attribute
 		 *          'attrname' => attribute value
@@ -643,6 +643,32 @@
 			$tag.= ">". value($link['content'], $link['fields'], 'html') ."</a>\n";
 			echo $tag;
 		}
+
+        /**
+         * Prints cancel link
+         *
+         * @param string $return which parameters should be extracted
+         * @param string $returnPage what page should be used to return
+         */
+        public function printCancelLink($return = 'table', $returnPage = 'display.php')
+        {
+            global $lang;
+            /** @var array $urlvars */
+            $urlvars = $this->getSubjectParams($return);
+            $urlvars['url'] = $returnPage;
+
+            $link = array(
+                'attr' => array(
+                    'href' => array(
+                        'url' => $urlvars['url'],
+                        'urlvars' => $urlvars['params'],
+                    ),
+                ),
+                'content' => $lang['strcancel'],
+            );
+
+            $this->printLink($link);
+        }
 
 		/**
 		 * Display a list of links
